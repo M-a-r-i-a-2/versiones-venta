@@ -1,14 +1,46 @@
-<h1>Nuestros productos</h1>
-<img src="/img/logo.png" alt="Moto">
-<section class="productos">
-    @for(producto of productos; track producto.id){
-        <article class="producto">
-            <img [src]="producto.imagen" [alt]="producto.nombre">
-            <h3>{{producto.nombre}}</h3>
-            <p>{{producto.descripcion}}</p>
-            <strong>{{producto.precio}}</strong>
-            <br>
-            <button>Ver más</button>
-        </article>
-    }
+<h1 class="titulo">Nuestros productos</h1>
+<img src="/img/logo.png" alt="Logo" class="logo">
+
+<section class="productos-grid">
+  <div class="card" *ngFor="let producto of productos; trackBy: trackProducto">
+    <div class="card-img-container">
+      <img [src]="producto.imagen" [alt]="producto.nombre" class="card-img" loading="lazy">
+    </div>
+    <div class="card-content">
+      <h3 class="card-title">{{ producto.nombre }}</h3>
+      <p class="card-description">{{ producto.descripcion }}</p>
+      <div class="card-footer">
+        <strong class="card-price">${{ producto.precio | number }}</strong>
+        <button class="card-button" (click)="seleccionarProducto(producto)">
+          <span>Ver más</span>
+          <svg class="button-icon" viewBox="0 0 24 24">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </section>
+
+<!-- Modal -->
+<div class="modal" *ngIf="productoSeleccionado as p" [class.active]="p">
+  <div class="modal-overlay" (click)="cerrarModal()"></div>
+  <div class="modal-content">
+    <button class="modal-close" (click)="cerrarModal()">
+      <svg viewBox="0 0 24 24">
+        <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+      </svg>
+    </button>
+    <div class="modal-img-container">
+      <img [src]="p.imagen" [alt]="p.nombre" class="modal-img">
+    </div>
+    <div class="modal-body">
+      <h2>{{ p.nombre }}</h2>
+      <p class="modal-description">{{ p.descripcion }}</p>
+      <div class="modal-footer">
+        <strong class="modal-price">${{ p.precio | number }}</strong>
+        <button class="modal-action-button">Añadir al carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
