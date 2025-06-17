@@ -4,5 +4,70 @@
         <a routerLink="/nosotros">Nosotros</a>
         <a routerLink="/productos">Productos</a>
         <a routerLink="/contacto">Contacto</a>
+        
+        <div class="cart-container">
+            <button class="cart-button" (click)="toggleCart()">
+                <svg class="cart-icon" viewBox="0 0 24 24">
+                    <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42C7.29,15 7.17,14.89 7.17,14.75L7.2,14.63L8.1,13H15.55C16.25,13 16.89,12.58 17.2,11.97L20.88,5.5C20.96,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/>
+                </svg>
+                <span class="cart-badge" *ngIf="cartItems.length > 0">{{cartItems.length}}</span>
+            </button>
+            
+            <div class="cart-dropdown" *ngIf="cartVisible" [@fadeInOut]>
+                <div class="cart-header">
+                    <h3>Tu Carrito de Compras</h3>
+                    <button class="close-btn" (click)="toggleCart()">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="cart-content">
+                    <div class="empty-cart" *ngIf="cartItems.length === 0">
+                        <svg class="empty-icon" viewBox="0 0 24 24">
+                            <path d="M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M7.4,15.4L12,10.8L16.6,15.4L18,14L12,8L6,14L7.4,15.4Z"/>
+                        </svg>
+                        <p>Tu carrito está vacío</p>
+                        <button class="continue-shopping" (click)="toggleCart()">Seguir comprando</button>
+                    </div>
+                    
+                    <div class="cart-items" *ngIf="cartItems.length > 0">
+                        <div class="items-list">
+                            <div class="cart-item" *ngFor="let item of cartItems">
+                                <img [src]="item.imagen" [alt]="item.nombre" class="item-image">
+                                <div class="item-info">
+                                    <h4 class="item-title">{{item.nombre}}</h4>
+                                    <div class="item-price">${{item.precio | number}}</div>
+                                </div>
+                                <button class="remove-item" (click)="removeFromCart(item.id)">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M19,13H5V11H19V13Z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span>${{getTotal() | number}}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Envío</span>
+                                <span>Gratis</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span>${{getTotal() | number}}</span>
+                            </div>
+                            
+                            <button class="checkout-btn">Proceder al pago</button>
+                            <button class="continue-shopping" (click)="toggleCart()">Seguir comprando</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
 </header>

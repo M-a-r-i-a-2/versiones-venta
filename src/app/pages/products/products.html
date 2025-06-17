@@ -39,8 +39,8 @@
       <p class="modal-description">{{ p.descripcion }}</p>
       <div class="modal-footer">
         <strong class="modal-price">${{ p.precio | number }}</strong>
-        <button class="modal-action-button">Añadir al carrito</button>
-      </div>
+<!-- En el modal-footer, reemplaza el botón actual -->
+<button class="modal-action-button" (click)="agregarAlCarrito(p)">Añadir al carrito</button>      </div>
     </div>
   </div>
 </div>
